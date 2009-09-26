@@ -15,6 +15,9 @@ our $VERSION = '0.01';
 
 =head1 DESCRIPTION
 
+Based on http://wiki.bestpractical.com/view/AutoCloseOnNagiosRecoveryMessages,
+thanks, Todd Chapman!
+
 Nagios( L<http://www.nagios.org> ) is a powerful monitoring system that enables
 organizations to identify and resolve IT infrastructure problems before they
 affect critical business processes.
@@ -48,7 +51,7 @@ sunnavy  C<< <sunnavy@bestpractical.com> >>
 
 =head1 LICENCE AND COPYRIGHT
 
-Shipwright is Copyright 2009 Best Practical Solutions, LLC.
+RT-Extension-Nagios is Copyright 2009 Best Practical Solutions, LLC.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

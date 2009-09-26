@@ -3,7 +3,9 @@ NAME
 
 DESCRIPTION
 
-    can be used to merge and resolve Nagios tickets automatically.
+    Used to merge and resolve Nagios tickets automatically.
+    Based on http://wiki.bestpractical.com/view/AutoCloseOnNagiosRecoveryMessages,
+    thanks, Todd Chapman!
 
 INSTALLATION
 
@@ -23,7 +25,7 @@ sunnavy  C<< <sunnavy@bestpractical.com> >>
 
 LICENCE AND COPYRIGHT
 
-Shipwright is Copyright 2009 Best Practical Solutions, LLC.
+RT-Extension-Nagios is Copyright 2009 Best Practical Solutions, LLC.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
