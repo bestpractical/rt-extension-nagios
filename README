@@ -1,0 +1,30 @@
+NAME
+    RT::Extension::Nagios - Merge and resolve Nagios tickets
+
+DESCRIPTION
+
+    can be used to merge and resolve Nagios tickets automatically.
+
+INSTALLATION
+
+        perl Makefile.PL
+        make
+        make install
+        make initdb # first time only
+
+    When using this extension with RT 3.8, you will need to add extension to
+    the Plugins configuration:
+
+        Set( @Plugins, qw(... RT::Extension::Nagios) );
+
+AUTHOR
+
+sunnavy  C<< <sunnavy@bestpractical.com> >>
+
+LICENCE AND COPYRIGHT
+
+Shipwright is Copyright 2009 Best Practical Solutions, LLC.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+

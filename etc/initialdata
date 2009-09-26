@@ -1,0 +1,22 @@
+# -*- perl -*-
+
+@Scrips = (
+    {
+        Description    => 'Nagios', # loc
+        ScripCondition => 'On Create', # loc
+        ScripAction    => 'Nagios', # loc
+        Template       => 'Blank',
+    },
+
+);
+
+@ScripActions = (
+    {
+        Name        => 'Nagios',    # loc
+        Description => 'Nagios',    # loc
+        ExecModule  => 'Nagios',
+    }
+
+);
+
+1;
