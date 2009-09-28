@@ -50,26 +50,49 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
             ENTRYAGGREGATOR => 'or'
         );
         $tickets->LimitStatus( VALUE => 'stalled', OPERATOR => '=' );
-
-        while ( my $ticket = $tickets->Next ) {
-            next if $ticket->id == $new_ticket_id;
-            my ( $ret, $msg ) = $ticket->MergeInto($new_ticket_id);
-            if ( !$ret ) {
-                $RT::Logger->error( 'failed to merge ticket '
-                      . $ticket->id
-                      . " into $new_ticket_id:$msg" );
+        if ( RT->Config->Get('NagiosMergeTickets') ) {
+            while ( my $ticket = $tickets->Next ) {
+                next if $ticket->id == $new_ticket_id;
+                my ( $ret, $msg ) = $ticket->MergeInto($new_ticket_id);
+                if ( !$ret ) {
+                    $RT::Logger->error( 'failed to merge ticket '
+                          . $ticket->id
+                          . " into $new_ticket_id: $msg" );
+                }
             }
 
+            if ( $type eq 'RECOVERY' ) {
+                my ( $ret, $msg ) = $new_ticket->Resolve();
+                if ( !$ret ) {
+                    $RT::Logger->error( 'failed to resolve ticket '
+                          . $new_ticket->id
+                          . ":$msg" );
+                }
+            }
         }
+        elsif ( $type eq 'RECOVERY' ) {
+            while ( my $ticket = $tickets->Next ) {
+                my ( $ret, $msg ) = $ticket->Comment(
+                    Content => 'going to be resolved by ' . $new_ticket_id,
+                    Status => 'resolved',
+                    );
+                if ( !$ret ) {
+                    $RT::Logger->error(
+                        'failed to comment ticket ' . $ticket->id . ": $msg" );
+                }
 
-        if ( $type eq 'RECOVERY' ) {
+                my ( $ret, $msg ) = $ticket->Resolve();
+                if ( !$ret ) {
+                    $RT::Logger->error(
+                        'failed to resolve ticket ' . $ticket->id . ": $msg" );
+                }
+            }
             my ( $ret, $msg ) = $new_ticket->Resolve();
             if ( !$ret ) {
                 $RT::Logger->error(
                     'failed to resolve ticket ' . $new_ticket->id . ":$msg" );
             }
         }
-
     }
 }
 

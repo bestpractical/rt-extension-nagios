@@ -40,11 +40,11 @@ PROBLEM, Service, localhost, Root Partition and WARNING
 ( Currently, we don't make use of problem_severity actually )
 
 After the new ticket is created, the following is done:
-find all the other active tickets in the same queue,
-with the same values of $2, $3 and $4 in subject and merge all of them into
-the new ticket.
+find all the other active tickets in the same queue with the same values of
+$category, $host and $problem_type, if C<RT->Config->Get('NagiosMergeTickets')>
+is true, merge all of them into the new ticket.
 
-If $1 is 'RECOVERY', resolve the new ticket
+If $type is 'RECOVERY', resolve the new ticket
 
 =head1 AUTHOR
 
