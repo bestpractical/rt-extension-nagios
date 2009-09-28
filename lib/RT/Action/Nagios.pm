@@ -24,18 +24,19 @@ sub Commit {
 
     my $subject = $attachment->GetHeader('Subject');
     return unless $subject;
-    if (
-        my ( $key, $category, $host, $type, $info ) =
-        $subject =~ m{(PROBLEM|RECOVERY) \s+ (Service|Host) \s+ Alert:
-            \s+([^/]+)/(.*)\s+is\s+(\w+)}ix
+    if ( my ( $type, $category, $host, $problem_type, $problem_severity ) =
+        $subject =~
+        m{(PROBLEM|RECOVERY)\s+(Service|Host) Alert: ([^/]+)/(.*)\s+is\s+(\w+)}i
       )
     {
         $RT::Logger->info(
-            "Extracted subject: $key, $category, $host, $type and $info" );
+"Extracted type, category, host, problem_type and problem_severity from
+subject with values $type, $category, $host, $problem_type and $problem_severity"
+        );
         my $tickets = RT::Tickets->new( $self->CurrentUser );
         $tickets->LimitQueue( VALUE => $new_ticket->Queue );
         $tickets->LimitSubject(
-            VALUE    => "$category Alert: $host/$type",
+            VALUE    => "$category Alert: $host/$problem_type",
             OPERATOR => 'LIKE',
         );
         $tickets->LimitStatus(
@@ -61,7 +62,7 @@ sub Commit {
 
         }
 
-        if ( $key eq 'RECOVERY' ) {
+        if ( $type eq 'RECOVERY' ) {
             my ( $ret, $msg ) = $new_ticket->Resolve();
             if ( !$ret ) {
                 $RT::Logger->error(

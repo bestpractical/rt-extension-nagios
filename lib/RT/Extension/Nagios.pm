@@ -28,15 +28,16 @@ extension helps you merge and resolve them.
 We identify email by its subject, so please keep it as the
 default one or alike, i.e. subject should pass the regex:
 
-C<qr{(PROBLEM|RECOVERY) \s+ (Service|Host) \s+ Alert:
-    \s+([^/]+)/(.*)\s+is\s+(\w+)}ix>
+C<qr{(PROBLEM|RECOVERY)\s+(Service|Host) Alert: ([^/]+)/(.+)\s+is\s+(\w+)}i>
 
 e.g.  "PROBLEM Service Alert: localhost/Root Partition is WARNING":
 
-There are 5 useful parts in subject( we call them $1..$5 ):
+There are 5 useful parts in subject( we call them type, category, host,
+problem_type and problem_severity ):
+
 PROBLEM, Service, localhost, Root Partition and WARNING
 
-( Currently, we don't make use of $5 )
+( Currently, we don't make use of problem_severity actually )
 
 After the new ticket is created, the following is done:
 find all the other active tickets in the same queue,
