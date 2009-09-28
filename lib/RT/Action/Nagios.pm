@@ -1,10 +1,9 @@
 package RT::Action::Nagios;
-require RT::Action::Generic;
 
 use strict;
 use warnings;
 
-use base qw(RT::Action::Generic);
+use base qw(RT::Action);
 
 sub Describe {
     my $self = shift;
@@ -31,9 +30,14 @@ sub Commit {
             \s+([^/]+)/(.*)\s+is\s+(\w+)}ix
       )
     {
-        $RT::Logger->error( $1, $2, $3, $4, $5 );
+        $RT::Logger->info(
+            "Extracted subject: $key, $category, $host, $type and $info" );
         my $tickets = RT::Tickets->new( $self->CurrentUser );
         $tickets->LimitQueue( VALUE => $new_ticket->Queue );
+        $tickets->LimitSubject(
+            VALUE    => "$category Alert: $host/$type",
+            OPERATOR => 'LIKE',
+        );
         $tickets->LimitStatus(
             VALUE           => 'new',
             OPERATOR        => '=',
@@ -48,15 +52,13 @@ sub Commit {
 
         while ( my $ticket = $tickets->Next ) {
             next if $ticket->id == $new_ticket_id;
-            if ( $ticket->Subject =~ m{$category\s+Alert:\s+$host/$type}i ) {
-                my ( $ret, $msg ) = $ticket->MergeInto($new_ticket_id);
-                if ( !$ret ) {
-                    $RT::Logger->error( 'failed to merge ticket '
-                          . $ticket->id
-                          . " into $new_ticket_id:$msg" );
-                }
-
+            my ( $ret, $msg ) = $ticket->MergeInto($new_ticket_id);
+            if ( !$ret ) {
+                $RT::Logger->error( 'failed to merge ticket '
+                      . $ticket->id
+                      . " into $new_ticket_id:$msg" );
             }
+
         }
 
         if ( $key eq 'RECOVERY' ) {
