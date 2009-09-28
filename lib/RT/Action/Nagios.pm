@@ -34,7 +34,8 @@ sub Commit {
 subject with values $type, $category, $host, $problem_type and $problem_severity"
         );
         my $tickets = RT::Tickets->new( $self->CurrentUser );
-        $tickets->LimitQueue( VALUE => $new_ticket->Queue );
+        $tickets->LimitQueue( VALUE => $new_ticket->Queue )
+          unless RT->Config->Get('NagiosSearchAllQueues');
         $tickets->LimitSubject(
             VALUE    => "$category Alert: $host/$problem_type",
             OPERATOR => 'LIKE',

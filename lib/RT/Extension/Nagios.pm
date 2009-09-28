@@ -28,7 +28,7 @@ extension helps you merge and resolve them.
 We identify email by its subject, so please keep it as the
 default one or alike, i.e. subject should pass the regex:
 
-C<qr{(PROBLEM|RECOVERY)\s+(Service|Host) Alert: ([^/]+)/(.+)\s+is\s+(\w+)}i>
+C<<< qr{(PROBLEM|RECOVERY)\s+(Service|Host) Alert: ([^/]+)/(.+)\s+is\s+(\w+)}i >>>
 
 e.g.  "PROBLEM Service Alert: localhost/Root Partition is WARNING":
 
@@ -40,11 +40,17 @@ PROBLEM, Service, localhost, Root Partition and WARNING
 ( Currently, we don't make use of problem_severity actually )
 
 After the new ticket is created, the following is done:
-find all the other active tickets in the same queue with the same values of
-$category, $host and $problem_type, if C<RT->Config->Get('NagiosMergeTickets')>
-is true, merge all of them into the new ticket.
 
-If $type is 'RECOVERY', resolve the new ticket
+1. find all the other active tickets in the same queue( unless
+C<<< RT->Config->Get('NagiosSearchAllQueues') >>> is true, which will cause
+to search all the queues ) with the same values of $category, $host and
+$problem_type.
+
+2. if C<< RT->Config->Get('NagiosMergeTickets') >>> is true, merge all of them
+into the new ticket, if $type is 'RECOVERY', resolve the new created ticket.
+
+if C<< RT->Config->Get('NagiosMergeTickets') >>> is false and $type is
+'RECOVERY', resolve all the found tickets and the new created ticket.
 
 =head1 AUTHOR
 
