@@ -2,7 +2,7 @@
 
 @Scrips = (
     {
-        Description    => 'Nagios', # loc
+        Description    => 'Update Nagios Tickets', # loc
         ScripCondition => 'On Create', # loc
         ScripAction    => 'Nagios', # loc
         Template       => 'Blank',
@@ -12,9 +12,9 @@
 
 @ScripActions = (
     {
-        Name        => 'Nagios',    # loc
-        Description => 'Nagios',    # loc
-        ExecModule  => 'Nagios',
+        Name        => 'Update Nagios Tickets',    # loc
+        Description => 'Merge or Resolve Nagios Tickets',    # loc
+        ExecModule  => 'UpdateNagiosTickets',
     }
 
 );

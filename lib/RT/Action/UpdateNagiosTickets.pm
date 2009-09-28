@@ -1,4 +1,4 @@
-package RT::Action::Nagios;
+package RT::Action::UpdateNagiosTickets;
 
 use strict;
 use warnings;
