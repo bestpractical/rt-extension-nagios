@@ -4,7 +4,7 @@
     {
         Description    => 'Update Nagios Tickets', # loc
         ScripCondition => 'On Create', # loc
-        ScripAction    => 'UpdateNagiosTickets', # loc
+        ScripAction    => 'Update Nagios Tickets', # loc
         Template       => 'Blank',
     },
 
