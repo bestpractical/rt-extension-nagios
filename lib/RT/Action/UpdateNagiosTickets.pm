@@ -82,7 +82,7 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
                         'failed to comment ticket ' . $ticket->id . ": $msg" );
                 }
 
-                my ( $ret, $msg ) = $ticket->Resolve();
+                ( $ret, $msg ) = $ticket->Resolve();
                 if ( !$ret ) {
                     $RT::Logger->error(
                         'failed to resolve ticket ' . $ticket->id . ": $msg" );
