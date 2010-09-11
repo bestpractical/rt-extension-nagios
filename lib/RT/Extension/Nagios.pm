@@ -52,6 +52,14 @@ into the new ticket, if $type is 'RECOVERY', resolve the new created ticket.
 if C<< RT->Config->Get('NagiosMergeTickets') >>> is false and $type is
 'RECOVERY', resolve all the found tickets and the new created ticket.
 
+NOTE:
+
+config items like C<NagiosSearchAllQueues> and C<NagiosMergeTickets> can be set
+in etc/RT_SiteConfig.pm like this:
+
+    Set($NagiosSearchAllQueues, 1); # true
+    Set($NagiosMergeTickets, 0); # false
+
 =head1 AUTHOR
 
 sunnavy  C<< <sunnavy@bestpractical.com> >>
