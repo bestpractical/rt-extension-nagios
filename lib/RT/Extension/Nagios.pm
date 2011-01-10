@@ -9,7 +9,7 @@ RT::Extension::Nagios - Merge and resolve Nagios tickets
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.03';
 
 1;
 
