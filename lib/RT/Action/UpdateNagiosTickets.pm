@@ -26,7 +26,7 @@ sub Commit {
     return unless $subject;
     if ( my ( $type, $category, $host, $problem_type, $problem_severity ) =
         $subject =~
-m{(PROBLEM|RECOVERY)\s+(Service|Host) Alert: ([^/]+)/?(.*)\s+is\s+(\w+)}i
+m{(PROBLEM|RECOVERY|ACKNOWLEDGEMENT)\s+(Service|Host) Alert: ([^/]+)/?(.*)\s+is\s+(\w+)}i
       )
     {
         $problem_type ||= '';
