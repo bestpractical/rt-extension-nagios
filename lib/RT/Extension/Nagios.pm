@@ -28,7 +28,7 @@ extension helps you merge and resolve them.
 We identify email by its subject, so please keep it as the
 default one or alike, i.e. subject should pass the regex:
 
-C<<< qr{(PROBLEM|RECOVERY|ACKNOWLEDGEMENT)\s+(Service|Host) Alert: ([^/]+)/?(.+)\s+is\s+(\w+)}i >>>
+C<<< qr{(PROBLEM|RECOVERY|ACKNOWLEDGEMENT)\s+(Service|Host) Alert: ([^/]+)/?(.*)\s+is\s+(\w+)}i >>>
 
 e.g.  "PROBLEM Service Alert: localhost/Root Partition is WARNING":
 
