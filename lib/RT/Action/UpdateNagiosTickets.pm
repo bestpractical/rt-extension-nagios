@@ -65,7 +65,7 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
             }
 
             if ( $type eq 'RECOVERY' ) {
-                my ( $ret, $msg ) = $new_ticket->Resolve();
+                my ( $ret, $msg ) = $new_ticket->SetStatus('resolved');
                 if ( !$ret ) {
                     $RT::Logger->error( 'failed to resolve ticket '
                           . $new_ticket->id
@@ -84,13 +84,13 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
                         'failed to comment ticket ' . $ticket->id . ": $msg" );
                 }
 
-                ( $ret, $msg ) = $ticket->Resolve();
+                ( $ret, $msg ) = $ticket->SetStatus('resolved');
                 if ( !$ret ) {
                     $RT::Logger->error(
                         'failed to resolve ticket ' . $ticket->id . ": $msg" );
                 }
             }
-            my ( $ret, $msg ) = $new_ticket->Resolve();
+            my ( $ret, $msg ) = $new_ticket->SetStatus('resolved');
             if ( !$ret ) {
                 $RT::Logger->error(
                     'failed to resolve ticket ' . $new_ticket->id . ":$msg" );
