@@ -42,17 +42,16 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
               . ( $problem_type ? "/$problem_type" : '' ),
             OPERATOR => 'LIKE',
         );
-        $tickets->LimitStatus(
-            VALUE           => 'new',
-            OPERATOR        => '=',
-            ENTRYAGGREGATOR => 'or'
-        );
-        $tickets->LimitStatus(
-            VALUE           => 'open',
-            OPERATOR        => '=',
-            ENTRYAGGREGATOR => 'or'
-        );
-        $tickets->LimitStatus( VALUE => 'stalled', OPERATOR => '=' );
+        my @active = RT::Queue->ActiveStatusArray();
+        for my $active (@active) {
+            $tickets->LimitStatus(
+                VALUE    => $active,
+                OPERATOR => '=',
+            );
+        }
+
+        my $resolved = RT->Config->Get('NagiosResolvedStatus') || 'resolved';
+
         if ( RT->Config->Get('NagiosMergeTickets') ) {
             while ( my $ticket = $tickets->Next ) {
                 next if $ticket->id == $new_ticket_id;
@@ -65,7 +64,7 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
             }
 
             if ( $type eq 'RECOVERY' ) {
-                my ( $ret, $msg ) = $new_ticket->SetStatus('resolved');
+                my ( $ret, $msg ) = $new_ticket->SetStatus($resolved);
                 if ( !$ret ) {
                     $RT::Logger->error( 'failed to resolve ticket '
                           . $new_ticket->id
@@ -77,20 +76,20 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
             while ( my $ticket = $tickets->Next ) {
                 my ( $ret, $msg ) = $ticket->Comment(
                     Content => 'going to be resolved by ' . $new_ticket_id,
-                    Status => 'resolved',
-                    );
+                    Status  => $resolved,
+                );
                 if ( !$ret ) {
                     $RT::Logger->error(
                         'failed to comment ticket ' . $ticket->id . ": $msg" );
                 }
 
-                ( $ret, $msg ) = $ticket->SetStatus('resolved');
+                ( $ret, $msg ) = $ticket->SetStatus($resolved);
                 if ( !$ret ) {
                     $RT::Logger->error(
                         'failed to resolve ticket ' . $ticket->id . ": $msg" );
                 }
             }
-            my ( $ret, $msg ) = $new_ticket->SetStatus('resolved');
+            my ( $ret, $msg ) = $new_ticket->SetStatus($resolved);
             if ( !$ret ) {
                 $RT::Logger->error(
                     'failed to resolve ticket ' . $new_ticket->id . ":$msg" );
