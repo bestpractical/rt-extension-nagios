@@ -14,8 +14,7 @@ INSTALLATION
         make install
         make initdb # first time only
 
-    When using this extension with RT 3.8, you will need to add extension to
-    the Plugins configuration:
+    with RT 3.8 or later, you need to add update "Plugins" configuration:
 
         Set( @Plugins, qw(... RT::Extension::Nagios) );
 
@@ -25,7 +24,7 @@ sunnavy  C<< <sunnavy@bestpractical.com> >>
 
 LICENCE AND COPYRIGHT
 
-RT-Extension-Nagios is Copyright 2009 Best Practical Solutions, LLC.
+RT-Extension-Nagios is Copyright 2009-2011 Best Practical Solutions, LLC.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
