@@ -46,10 +46,10 @@ C<<< RT->Config->Get('NagiosSearchAllQueues') >>> is true, which will cause
 to search all the queues ) with the same values of $category, $host and
 $problem_type.
 
-2. if C<< RT->Config->Get('NagiosMergeTickets') >>> is true, merge all of
+2. if C<< RT->Config->Get('NagiosMergeTickets') >> is true, merge all of
 them. if $type is 'RECOVERY', resolve the merged ticket.
 
-if C<< RT->Config->Get('NagiosMergeTickets') >>> is false and $type is
+if C<< RT->Config->Get('NagiosMergeTickets') >> is false and $type is
 'RECOVERY', resolve all them.
 
 NOTE:
