@@ -52,22 +52,31 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
 
         my $resolved = RT->Config->Get('NagiosResolvedStatus') || 'resolved';
 
-        if ( RT->Config->Get('NagiosMergeTickets') ) {
+        if ( my $merge_type = RT->Config->Get('NagiosMergeTickets') ) {
+            my $merged_ticket;
+
+            $tickets->OrderBy(
+                FIELD => 'Created',
+                ORDER => $merge_type > 0 ? 'DESC' : 'ASC',
+            );
+            $merged_ticket = $tickets->Next;
+
             while ( my $ticket = $tickets->Next ) {
-                next if $ticket->id == $new_ticket_id;
-                my ( $ret, $msg ) = $ticket->MergeInto($new_ticket_id);
+                my ( $ret, $msg ) = $ticket->MergeInto( $merged_ticket->id );
                 if ( !$ret ) {
                     $RT::Logger->error( 'failed to merge ticket '
                           . $ticket->id
-                          . " into $new_ticket_id: $msg" );
+                          . " into "
+                          . $merged_ticket->id
+                          . ": $msg" );
                 }
             }
 
             if ( $type eq 'RECOVERY' ) {
-                my ( $ret, $msg ) = $new_ticket->SetStatus($resolved);
+                my ( $ret, $msg ) = $merged_ticket->SetStatus($resolved);
                 if ( !$ret ) {
                     $RT::Logger->error( 'failed to resolve ticket '
-                          . $new_ticket->id
+                          . $merged_ticket->id
                           . ":$msg" );
                 }
             }

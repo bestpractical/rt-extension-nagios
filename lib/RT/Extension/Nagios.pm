@@ -46,11 +46,11 @@ C<<< RT->Config->Get('NagiosSearchAllQueues') >>> is true, which will cause
 to search all the queues ) with the same values of $category, $host and
 $problem_type.
 
-2. if C<< RT->Config->Get('NagiosMergeTickets') >>> is true, merge all of them
-into the new ticket, if $type is 'RECOVERY', resolve the new created ticket.
+2. if C<< RT->Config->Get('NagiosMergeTickets') >>> is true, merge all of
+them. if $type is 'RECOVERY', resolve the merged ticket.
 
 if C<< RT->Config->Get('NagiosMergeTickets') >>> is false and $type is
-'RECOVERY', resolve all the found tickets and the new created ticket.
+'RECOVERY', resolve all them.
 
 NOTE:
 
@@ -58,7 +58,9 @@ config items like C<NagiosSearchAllQueues> and C<NagiosMergeTickets> can be set
 in etc/RT_SiteConfig.pm like this:
 
     Set($NagiosSearchAllQueues, 1); # true
-    Set($NagiosMergeTickets, 0); # false
+    Set($NagiosMergeTickets, 0); # false, no merge will be done
+    Set($NagiosMergeTickets, 1); # merged to the newest ticket.
+    Set($NagiosMergeTickets, -1); # merged to the oldest ticket.
 
 by default, tickets will be resolved with status C<resolved>, you can
 customize this via config item C<NagiosResolvedStatus>, e.g.
