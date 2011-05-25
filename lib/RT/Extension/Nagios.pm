@@ -58,9 +58,9 @@ config items like C<NagiosSearchAllQueues> and C<NagiosMergeTickets> can be set
 in etc/RT_SiteConfig.pm like this:
 
     Set($NagiosSearchAllQueues, 1); # true
-    Set($NagiosMergeTickets, 0); # false, no merge will be done
-    Set($NagiosMergeTickets, 1); # merged to the newest ticket.
-    Set($NagiosMergeTickets, -1); # merged to the oldest ticket.
+    Set($NagiosMergeTickets, 0); # false, don't merge
+    Set($NagiosMergeTickets, 1); # merge into the newest ticket.
+    Set($NagiosMergeTickets, -1); # merge into the oldest ticket.
 
 by default, tickets will be resolved with status C<resolved>, you can
 customize this via config item C<NagiosResolvedStatus>, e.g.

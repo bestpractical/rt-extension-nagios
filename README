@@ -14,9 +14,18 @@ INSTALLATION
         make install
         make initdb # first time only
 
-    with RT 3.8 or later, you need to add update "Plugins" configuration:
+    with RT 3.8 or later, you need to update "Plugins" configuration:
 
         Set( @Plugins, qw(... RT::Extension::Nagios) );
+
+    below are the extra options:
+    (check out lib/RT/Extension/Nagios.pm if you are confused):
+
+        Set($NagiosSearchAllQueues, 1);
+        Set($NagiosMergeTickets, 0); # false, don't merge
+        Set($NagiosMergeTickets, 1); # merge into the newest ticket.
+        Set($NagiosMergeTickets, -1); # merge into the oldest ticket.
+        Set($NagiosResolvedStatus, "resolved");
 
 AUTHOR
 
