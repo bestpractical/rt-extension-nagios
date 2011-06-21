@@ -72,7 +72,7 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
                 }
             }
 
-            if ( $type eq 'RECOVERY' ) {
+            if ( uc $type eq 'RECOVERY' ) {
                 my ( $ret, $msg ) = $merged_ticket->SetStatus($resolved);
                 if ( !$ret ) {
                     $RT::Logger->error( 'failed to resolve ticket '
@@ -81,7 +81,7 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
                 }
             }
         }
-        elsif ( $type eq 'RECOVERY' ) {
+        elsif ( uc $type eq 'RECOVERY' ) {
             while ( my $ticket = $tickets->Next ) {
                 my ( $ret, $msg ) = $ticket->Comment(
                     Content => 'going to be resolved by ' . $new_ticket_id,
