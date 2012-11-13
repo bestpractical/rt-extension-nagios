@@ -51,7 +51,8 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
         }
 
         my $resolved = RT->Config->Get('NagiosResolvedStatus') || 'resolved';
-		my $resolve_tickets = RT->Config->Get('NagiosResolveTickets') || 1;
+		my $resolve_tickets = RT->Config->Get('NagiosResolveTickets');
+		$resolve_tickets = 1 unless defined $resolve_tickets;
 
         if ( my $merge_type = RT->Config->Get('NagiosMergeTickets') ) {
             my $merged_ticket;
