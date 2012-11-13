@@ -26,6 +26,8 @@ INSTALLATION
         Set($NagiosMergeTickets, 1); # merge into the newest ticket.
         Set($NagiosMergeTickets, -1); # merge into the oldest ticket.
         Set($NagiosResolvedStatus, "resolved");
+        Set($NagiosResolveTickets, 0) # don't resolve tickets on recovery, just merge (maybe)
+        Set($NagiosResolveTickets, 1) # Default, resolve tickets on recovery
 
 AUTHOR
 
