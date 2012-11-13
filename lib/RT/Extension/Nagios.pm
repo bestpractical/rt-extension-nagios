@@ -61,6 +61,8 @@ in etc/RT_SiteConfig.pm like this:
     Set($NagiosMergeTickets, 0); # false, don't merge
     Set($NagiosMergeTickets, 1); # merge into the newest ticket.
     Set($NagiosMergeTickets, -1); # merge into the oldest ticket.
+    Set($NagiosResolveTickets, 0) # don't resolve tickets on recovery, just merge (maybe)
+    Set($NagiosResolveTickets, 1) # Default, resolve tickets on recovery
 
 by default, tickets will be resolved with status C<resolved>, you can
 customize this via config item C<NagiosResolvedStatus>, e.g.

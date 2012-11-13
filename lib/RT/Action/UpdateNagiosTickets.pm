@@ -51,6 +51,8 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
         }
 
         my $resolved = RT->Config->Get('NagiosResolvedStatus') || 'resolved';
+		my $resolve_tickets = RT->Config->Get('NagiosResolveTickets');
+		$resolve_tickets = 1 unless defined $resolve_tickets;
 
         if ( my $merge_type = RT->Config->Get('NagiosMergeTickets') ) {
             my $merged_ticket;
@@ -72,7 +74,7 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
                 }
             }
 
-            if ( uc $type eq 'RECOVERY' ) {
+            if ( uc $type eq 'RECOVERY' and $resolve_tickets) {
                 my ( $ret, $msg ) = $merged_ticket->SetStatus($resolved);
                 if ( !$ret ) {
                     $RT::Logger->error( 'failed to resolve ticket '
@@ -81,7 +83,7 @@ subject with values $type, $category, $host, $problem_type and $problem_severity
                 }
             }
         }
-        elsif ( uc $type eq 'RECOVERY' ) {
+        elsif ( uc $type eq 'RECOVERY' and $resolve_tickets ) {
             while ( my $ticket = $tickets->Next ) {
                 my ( $ret, $msg ) = $ticket->Comment(
                     Content => 'going to be resolved by ' . $new_ticket_id,
