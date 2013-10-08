@@ -1,3 +1,8 @@
+0.07 Tue Oct  8 13:26:17 EDT 2013
+
+    Update install infrastructure for RT 4.2
+    Fix errors for RECOVERY with no open
+
 0.06 Sat May 21 14:21:52 CST 2011
 
     customize the merge direction
