@@ -25,8 +25,11 @@ sub Commit {
     my $subject = $attachment->GetHeader('Subject');
     return unless $subject;
     if ( my ( $type, $category, $host, $problem_type, $problem_severity ) =
-        $subject =~
-m{(PROBLEM|RECOVERY|ACKNOWLEDGEMENT)\s+(Service|Host) Alert: ([^/]+)/?(.*)\s+is\s+(\w+)}i
+        $subject =~ m{(PROBLEM|RECOVERY|ACKNOWLEDGEMENT|FLAPPING(?:START|STOP))
+                      \s+ (Service|Host)
+                      \s+ Alert:
+                      \s+ ([^/]+)/?(.*)
+                      \s+ is \s+ (\w+)}ix
       )
     {
         $problem_type ||= '';

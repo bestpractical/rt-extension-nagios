@@ -113,9 +113,10 @@ Nagios notifications from there into other queues, you will want to set:
 =item C<NagiosMergeTickets>
 
 Controls if the extensions merges tickets about the same incident
-together.  By default, each C<PROBLEM>, C<ACKNOWLEDGEMENT>, and
-C<RECOVERY> notification will remain as its own ticket; when the
-C<RECOVERY> email is received by RT, all will be resolved.
+together.  By default, each C<PROBLEM>, C<ACKNOWLEDGEMENT>,
+C<FLAPPINGSTART>, C<FLAPPINGSTOP> and C<RECOVERY> notification will
+remain as its own ticket; when the C<RECOVERY> email is received by RT,
+all will be resolved.
 
 Setting this configuration parameter to C<1> causes the extension to
 merge all old tickets on the same topic into new tickets as they arrive;
