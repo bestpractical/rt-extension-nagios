@@ -78,9 +78,10 @@ CONFIGURATION
 
     NagiosMergeTickets
         Controls if the extensions merges tickets about the same incident
-        together. By default, each PROBLEM, ACKNOWLEDGEMENT, and RECOVERY
-        notification will remain as its own ticket; when the RECOVERY email
-        is received by RT, all will be resolved.
+        together. By default, each PROBLEM, ACKNOWLEDGEMENT, FLAPPINGSTART,
+        FLAPPINGSTOP and RECOVERY notification will remain as its own
+        ticket; when the RECOVERY email is received by RT, all will be
+        resolved.
 
         Setting this configuration parameter to 1 causes the extension to
         merge all old tickets on the same topic into new tickets as they
